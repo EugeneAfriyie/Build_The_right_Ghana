@@ -2,6 +2,7 @@ import React from 'react';
 import { BlogCard } from '../../Components/Blog';
 import { blogPosts } from '../../Components/blogPosts';
 import Socials from '../../Components/Socials';
+import Reveal from '../../Components/Reveal';
 
 const BlogArchive = () => {
   // Use the shared data source
@@ -9,6 +10,7 @@ const BlogArchive = () => {
 
   return (
     <main className="pt-32 pb-20 px-6 bg-white">
+      <Reveal>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-5xl font-bold text-[#2d4e41] mb-4">Our Journey</h1>
         <p className="text-xl text-gray-600 mb-16">Latest updates and impact stories from the field.</p>
@@ -19,6 +21,7 @@ const BlogArchive = () => {
           ))}
         </div>
       </div>
+      </Reveal>
       <Socials />
     </main>
   );

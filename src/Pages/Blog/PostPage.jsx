@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogPosts } from '../../Components/blogPosts';
 import Socials from '../../Components/Socials';
+import Reveal from '../../Components/Reveal';
 
 const PostPage = () => {
   const { slug } = useParams();
@@ -15,6 +16,7 @@ const PostPage = () => {
 
   return (
     <article className="pt-32 pb-20 px-6">
+      <Reveal>
       <div className="max-w-4xl mx-auto">
         <Link to="/blog" className="text-[#448c6c] font-bold mb-8 inline-block hover:underline">
           ← Back to News
@@ -36,6 +38,7 @@ const PostPage = () => {
           {/* Add more paragraphs/sections here */}
         </div>
       </div>
+      </Reveal>
 
       <Socials />
     </article>

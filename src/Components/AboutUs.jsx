@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Reveal from './Reveal';
 
 const AboutUsCurvedCentered = () => {
   const navigate = useNavigate();
   return (
+    <Reveal>
     <section className="py-20 px-6 md:px-20 bg-white min-h-[600px] flex items-center">
       <div className="max-w-6xl mx-auto w-full">
         
@@ -63,6 +65,7 @@ const AboutUsCurvedCentered = () => {
 
       
     </section>
+    </Reveal>
   );
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShieldCheck, Target, Heart } from 'lucide-react';
 import Socials from '../Components/Socials';
+import Reveal from '../Components/Reveal';
 
 const FullAboutPage = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const FullAboutPage = () => {
 
       {/* 2. Deep Dive Content */}
       <section className="py-20 px-6 md:px-20">
+        <Reveal>
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
             
@@ -106,11 +108,13 @@ const FullAboutPage = () => {
 
           </div>
         </div>
+        </Reveal>
       </section>
 
       <Socials />
 
       {/* 3. Call to Action Footer */}
+      <Reveal>
       <section className="bg-[#2d4a3e] py-16 px-6 text-center text-white">
         <h2 className="text-3xl md:text-5xl font-bold mb-8 italic">Join us in building a better Ghana.</h2>
         <button 
@@ -120,6 +124,7 @@ const FullAboutPage = () => {
           Get Involved Now
         </button>
       </section>
+      </Reveal>
     </main>
   );
 };

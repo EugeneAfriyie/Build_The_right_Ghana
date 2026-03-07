@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, CreditCard, Smartphone, Copy } from 'lucide-react';
+import Reveal from './Reveal';
 
 const Mission = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,6 +13,7 @@ const Mission = () => {
   };
 
   return (
+    <Reveal>
     <section className="py-20 px-6 md:px-20 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
         
@@ -127,6 +129,7 @@ const Mission = () => {
         </div>
       )}
     </section>
+    </Reveal>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { RotateCw, MapPin, MessageSquare, X, Check } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import Reveal from './Reveal';
 
 const Contact = () => {
   const form = useRef();
@@ -37,7 +38,12 @@ const Contact = () => {
 
     if (validateCaptcha(user_captcha_value)) {
       // Replace with your actual Service ID, Template ID, and Public Key
-      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+      emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        form.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
         .then((result) => {
           console.log("Email sent:", result.text);
           setPopup({ show: true, message: 'Message sent successfully!', type: 'success' });
@@ -62,6 +68,7 @@ const Contact = () => {
   };
 
   return (
+    <Reveal>
     <section  className="w-full bg-[#8eb39b]">
       {/* 1. Map Section */}
       <div className="relative h-[350px] md:h-[500px] w-full">
@@ -236,6 +243,7 @@ const Contact = () => {
         </div>
       )}
     </section>
+    </Reveal>
   );
 };
 

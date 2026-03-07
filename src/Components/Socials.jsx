@@ -1,5 +1,6 @@
 import React from 'react';
 import { Facebook, Twitter, Instagram, Youtube, Send } from 'lucide-react';
+import Reveal from './Reveal';
 
 const Socials = () => {
   const socialLinks = [
@@ -11,6 +12,7 @@ const Socials = () => {
   ];
 
   return (
+    <Reveal>
     <section className="py-16 bg-white border-t border-gray-100">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <h3 className="text-[#448c6c] font-bold uppercase tracking-widest mb-4">
@@ -36,6 +38,7 @@ const Socials = () => {
         </div>
       </div>
     </section>
+    </Reveal>
   );
 };
 

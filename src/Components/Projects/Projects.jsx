@@ -1,4 +1,5 @@
 import React from 'react';
+import Reveal from '../Reveal';
 
 // 1. Sub-component for individual cards
 const ProjectCard = ({ title, description, imageUrl }) => (
@@ -53,6 +54,7 @@ const Projects = () => {
   ];
 
   return (
+    <Reveal>
     <div className="w-full">
       {/* Header Section */}
       <section className="bg-[#d9e8e0] py-20 px-6 text-center">
@@ -80,6 +82,7 @@ const Projects = () => {
         </div>
       </section>
     </div>
+    </Reveal>
   );
 };
 

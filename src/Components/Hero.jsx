@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const Hero = () => {
   return (
@@ -7,7 +8,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: "url('src/assets/hero.png')",
+          backgroundImage: "url('assets/HERO.png')",
         }}
       >
         {/* Dark Overlay to make text pop */}
@@ -15,7 +16,12 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto text-white">
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="relative z-10 text-center px-4 max-w-4xl mx-auto text-white"
+      >
         <h1 className="text-5xl md:text-7xl font-extrabold uppercase tracking-tight mb-6 drop-shadow-lg">
           Build the Right Ghana
         </h1>
@@ -24,7 +30,7 @@ const Hero = () => {
           Let’s make a positive impact. <br className="hidden md:block" /> 
           Be a <span className="text-white">Citizen</span> not a <span className="text-white">Spectator.</span>
         </p>
-      </div>
+      </motion.div>
     </section>
   );
 };

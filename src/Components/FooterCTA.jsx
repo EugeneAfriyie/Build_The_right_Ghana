@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, CreditCard, Smartphone, Copy } from 'lucide-react';
+import Reveal from './Reveal';
 
 const FooterCTA = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,11 +13,12 @@ const FooterCTA = () => {
   };
 
   return (
+    <Reveal>
     <section className="relative h-[60vh] flex items-center justify-center">
       {/* Background Image with Dark Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('src/assets/green_forest.png')" }}
+        style={{ backgroundImage: "url('assets/green_forest.png')" }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
@@ -110,6 +112,7 @@ const FooterCTA = () => {
         </div>
       )}
     </section>
+    </Reveal>
   );
 };
 

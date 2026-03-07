@@ -1,8 +1,10 @@
 import React from 'react'
+import Reveal from './Reveal'
 
 const Footer = () => {
   return (
 <div className="">
+  <Reveal>
     {/* 4. Bottom Rights Section */}
       <div className="bg-[#d9e8e0] py-12 px-6 md:px-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-[#2d4e41] font-bold text-sm md:text-base border-t border-[#2d4e41]/10 pt-10">
@@ -16,6 +18,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+  </Reveal>
 </div>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { blogPosts } from './blogPosts';
 import Socials from './Socials';
+import Reveal from './Reveal';
 
   export const BlogCard = ({ date, category, title, excerpt, imageUrl, slug }) => {
   return (
@@ -52,6 +53,7 @@ const Blog = () => {
   const posts = blogPosts.slice(0, 3);
 
   return (
+    <Reveal>
     <section className="py-20 px-6 md:px-20 bg-[#f9fafb]">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -81,6 +83,7 @@ const Blog = () => {
 
       <Socials />
     </section>
+    </Reveal>
   );
 };
 

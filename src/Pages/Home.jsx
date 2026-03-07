@@ -7,6 +7,7 @@ import Blog from '../Components/Blog'
 import FooterCTA from '../Components/FooterCTA'
 import Contact from '../Components/Contact'
 import Socials from '../Components/Socials'
+import Reveal from '../Components/Reveal'
 
 const Home = () => {
   return (
@@ -15,7 +16,9 @@ const Home = () => {
       <Socials />
       <AboutUsCurvedCentered />
       <div id="projects">
-        <Projects />
+        <Reveal>
+          <Projects />
+        </Reveal>
       </div>
       <Mission />
       <Blog />
