@@ -4,6 +4,7 @@ import Socials from './Socials';
 import Reveal from './Reveal';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../firebase';
+import { ChevronRight } from 'lucide-react';
 
   export const BlogCard = ({ date, category, title, excerpt, imageUrl, slug }) => {
   return (
@@ -51,6 +52,9 @@ const Blog = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
+  const latestPost = posts[0];
+  const otherPosts = posts.slice(1);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -91,9 +95,42 @@ const Blog = () => {
           </button>
         </div>
 
+        {latestPost && (
+          <div className="mb-12 group">
+              <Link to={`/blog/${latestPost.slug}`} className="block">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-[2rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
+                      <div className="lg:col-span-7 h-[300px] md:h-[400px] rounded-[1.5rem] overflow-hidden relative">
+                          <img 
+                              src={latestPost.imageUrl} 
+                              alt={latestPost.title} 
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                          />
+                          <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-md text-[#2d4e41] text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-lg">
+                              Featured • {latestPost.category}
+                          </div>
+                      </div>
+                      <div className="lg:col-span-5 p-4 md:p-8 lg:pr-12 flex flex-col justify-center">
+                          <div className="flex items-center gap-3 text-gray-500 text-sm font-medium mb-6">
+                              <span className="bg-gray-100 px-3 py-1 rounded-full">{latestPost.date}</span>
+                          </div>
+                          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#2d4e41] mb-4 leading-[1.1] group-hover:text-[#448c6c] transition-colors">
+                              {latestPost.title}
+                          </h2>
+                          <p className="text-gray-600 text-base mb-6 line-clamp-3 leading-relaxed">
+                              {latestPost.excerpt}
+                          </p>
+                          <div className="flex items-center gap-2 text-[#2d4e41] font-bold uppercase tracking-wider group-hover:gap-4 transition-all text-sm">
+                              Read Full Story <ChevronRight size={18} className="text-[#448c6c]" />
+                          </div>
+                      </div>
+                  </div>
+              </Link>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post, index) => (
-            <BlogCard key={index} {...post} />
+          {otherPosts.map((post, index) => (
+            <BlogCard key={post.id || index} {...post} />
           ))}
         </div>
       </div>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { collection, addDoc, getDocs, deleteDoc, updateDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { db, auth } from './firebase';
-import { useNavigate, Link } from 'react-router-dom';
-import { Plus, Trash2, LogOut, LayoutDashboard, Eye, Pencil, X, AlertTriangle, Check, Info, Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Trash2, LogOut, LayoutDashboard, Eye, Pencil, X, AlertTriangle, Check, Info } from 'lucide-react';
 
 const FormLabel = ({ label, info }) => (
   <div className="flex items-center gap-2 mb-1">
@@ -80,16 +80,11 @@ const Dashboard = () => {
       async () => {
         await signOut(auth);
         navigate('/admin/login');
-      },
-      true // Set isDestructive to true for red confirmation button
+      }
     );
   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // TODO: Replace these with your actual Cloudinary details
+  const uploadFile = async (file) => {
     const cloudName = "dzqdfaghg"; 
     const uploadPreset = "build-the-right-ghanA"; 
 
@@ -116,8 +111,30 @@ const Dashboard = () => {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    await uploadFile(file);
+  };
+
+  const handlePaste = async (e) => {
+    const items = e.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        await uploadFile(file);
+        return;
+      }
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.imageUrl) {
+      setNotification({ show: true, type: 'error', message: 'Please upload an image for the post.' });
+      return;
+    }
     triggerConfirmation(
       editId ? 'Update Post' : 'Publish Post',
       `Are you sure you want to ${editId ? 'update' : 'publish'} this post?`,
@@ -195,20 +212,15 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24">
+    <div className="min-h-screen bg-gray-50">
       {/* Navbar */}
       <nav className="bg-[#2d4e41] text-white p-4 px-8 flex justify-between items-center shadow-md">
         <div className="flex items-center gap-2 font-bold text-xl">
           <LayoutDashboard /> Admin Dashboard
         </div>
-        <div className="flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 hover:text-gray-300 transition-colors font-medium">
-            <Home size={20} /> <span className="hidden sm:inline">Back to Website</span>
-          </Link>
-          <button onClick={handleLogout} className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors shadow-sm">
-            <LogOut size={18} /> <span className="hidden sm:inline">Logout</span>
-          </button>
-        </div>
+        <button onClick={handleLogout} className="flex items-center gap-2 hover:text-gray-300 transition-colors">
+          <LogOut size={20} /> Logout
+        </button>
       </nav>
 
       <div className="max-w-7xl mx-auto p-8">
@@ -250,25 +262,29 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <FormLabel label="Image" info="Upload a cover image to be displayed at the top of the post." />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#448c6c] outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#e6f0eb] file:text-[#2d4e41] hover:file:bg-[#d1e3da]"
-                  />
+                  <FormLabel label="Image" info="Upload an image, paste an image URL, or paste an image from your clipboard." />
+                  <div className="space-y-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#448c6c] outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#e6f0eb] file:text-[#2d4e41] hover:file:bg-[#d1e3da]"
+                    />
+                    <input
+                      type="url"
+                      placeholder="Or paste image URL here (or paste image from clipboard)"
+                      value={formData.imageUrl}
+                      onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
+                      onPaste={handlePaste}
+                      className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#448c6c] outline-none"
+                    />
+                  </div>
                   {uploading && <p className="text-sm text-[#448c6c] mt-1">Uploading image...</p>}
                   {formData.imageUrl && (
                     <div className="mt-2">
                       <img src={formData.imageUrl} alt="Preview" className="h-24 w-auto rounded-lg border border-gray-300" />
                     </div>
                   )}
-                  {/* Hidden input to ensure an image is selected before submit */}
-                  <input 
-                    type="hidden" 
-                    required 
-                    value={formData.imageUrl} 
-                  />
                 </div>
                 <div>
                   <FormLabel label="Excerpt" info="A short summary (1-2 sentences) displayed on the blog home page." />
@@ -431,12 +447,25 @@ const Dashboard = () => {
               {notification.type === 'success' ? 'Success!' : 'Error'}
             </h3>
             <p className="text-gray-600 mb-6">{notification.message}</p>
-            <button 
-              onClick={closeNotification}
-              className={`px-8 py-3 rounded-full font-bold text-white transition-colors ${notification.type === 'success' ? 'bg-[#448c6c] hover:bg-[#366d54]' : 'bg-red-500 hover:bg-red-600'}`}
-            >
-              Close
-            </button>
+            <div className="flex flex-col gap-3">
+              {notification.type === 'success' && (
+                <button 
+                  onClick={() => {
+                    closeNotification();
+                    navigate('/blog');
+                  }}
+                  className="px-8 py-3 rounded-full font-bold text-[#448c6c] border-2 border-[#448c6c] hover:bg-[#e6f0eb] transition-colors"
+                >
+                  Check Blog Page
+                </button>
+              )}
+              <button 
+                onClick={closeNotification}
+                className={`px-8 py-3 rounded-full font-bold text-white transition-colors ${notification.type === 'success' ? 'bg-[#448c6c] hover:bg-[#366d54]' : 'bg-red-500 hover:bg-red-600'}`}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Socials from '../../Components/Socials';
 import Reveal from '../../Components/Reveal';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { BlogCard } from '../../Components/Blog';
 
 const PostPage = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +19,17 @@ const PostPage = () => {
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-          setPost(querySnapshot.docs[0].data());
+          const postData = querySnapshot.docs[0].data();
+          setPost(postData);
+
+          // Fetch related posts (latest 3 excluding current)
+          const qRelated = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(4));
+          const relatedSnapshot = await getDocs(qRelated);
+          const related = relatedSnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(p => p.slug !== slug)
+            .slice(0, 3);
+          setRelatedPosts(related);
         } else {
           setPost(null);
         }
@@ -60,6 +72,18 @@ const PostPage = () => {
           <p>{post.content}</p>
           {/* Add more paragraphs/sections here */}
         </div>
+
+        {/* Related Posts */}
+        {relatedPosts.length > 0 && (
+          <div className="mt-20 border-t border-gray-200 pt-16">
+            <h3 className="text-3xl font-bold text-[#2d4e41] mb-10">Related Stories</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {relatedPosts.map((relatedPost) => (
+                <BlogCard key={relatedPost.id} {...relatedPost} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       </Reveal>
 
