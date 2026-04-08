@@ -3,32 +3,38 @@ import { RotateCw, MapPin, MessageSquare, X, Check } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Reveal from './Reveal';
 
+const CAPTCHA_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const EMPTY_FORM_STATE = {
+  company: '',
+  name: '',
+  phone: '',
+  email: '',
+  message: '',
+  privacyAccepted: false
+};
+
+const createCaptchaText = () => {
+  let captcha = '';
+  for (let i = 0; i < 6; i += 1) {
+    captcha += CAPTCHA_CHARS[Math.floor(Math.random() * CAPTCHA_CHARS.length)];
+  }
+
+  return captcha;
+};
+
 const Contact = () => {
   const form = useRef();
   const canvasRef = useRef(null);
-  const [captchaText, setCaptchaText] = useState('');
-  const [formData, setFormData] = useState({
-    company: '',
-    name: '',
-    phone: '',
-    email: '',
-    message: '',
-    privacyAccepted: false
-  });
+  const [captchaText, setCaptchaText] = useState(() => createCaptchaText());
+  const [captchaInput, setCaptchaInput] = useState('');
+  const [formData, setFormData] = useState(EMPTY_FORM_STATE);
   const [popup, setPopup] = useState({
     show: false,
     message: '',
     type: 'success' // 'success' or 'error'
   });
 
-  const generateCaptcha = () => {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    let captcha = '';
-    for (let i = 0; i < 6; i++) {
-      captcha += chars[Math.floor(Math.random() * chars.length)];
-    }
-    setCaptchaText(captcha);
-    
+  const drawCaptcha = (captcha) => {
     const canvas = canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -43,60 +49,64 @@ const Contact = () => {
       ctx.fillText(captcha, canvas.width / 2, canvas.height / 2);
       
       // Add noise lines
-      for(let i=0; i<5; i++) {
-          ctx.beginPath();
-          ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-          ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
-          ctx.strokeStyle = '#2d4e41';
-          ctx.lineWidth = 1;
-          ctx.stroke();
+      for (let i = 0; i < 5; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+        ctx.strokeStyle = '#2d4e41';
+        ctx.lineWidth = 1;
+        ctx.stroke();
       }
     }
   };
 
   useEffect(() => {
-    generateCaptcha();
-  }, []);
+    drawCaptcha(captchaText);
+  }, [captchaText]);
 
   const handleReload = () => {
-    generateCaptcha();
-    document.getElementById('user_captcha_input').value = "";
+    setCaptchaText(createCaptchaText());
+    setCaptchaInput('');
   };
 
   const closePopup = () => setPopup({ ...popup, show: false });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user_captcha_value = document.getElementById('user_captcha_input').value;
+    const emailJsConfig = {
+      serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    };
 
-    if (user_captcha_value === captchaText) {
-      // Replace with your actual Service ID, Template ID, and Public Key
-      emailjs.sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        form.current,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-        .then((result) => {
-          console.log("Email sent:", result.text);
-          setPopup({ show: true, message: 'Message sent successfully!', type: 'success' });
-          setFormData({
-            company: '',
-            name: '',
-            phone: '',
-            email: '',
-            message: '',
-            privacyAccepted: false
-          });
-          e.target.reset();
-          document.getElementById('user_captcha_input').value = "";
-        }, (error) => {
-          console.log("Email error:", error.text);
-          setPopup({ show: true, message: 'Failed to send message. Please try again.', type: 'error' });
-        });
-    } else {
+    if (!Object.values(emailJsConfig).every(Boolean)) {
+      setPopup({ show: true, message: 'EmailJS is not fully configured. Check your environment variables.', type: 'error' });
+      return;
+    }
+
+    if (captchaInput !== captchaText) {
       setPopup({ show: true, message: 'Captcha is incorrect. Please try again.', type: 'error' });
-      document.getElementById('user_captcha_input').value = "";
+      setCaptchaInput('');
+      setCaptchaText(createCaptchaText());
+      return;
+    }
+
+    try {
+      const result = await emailjs.sendForm(
+        emailJsConfig.serviceId,
+        emailJsConfig.templateId,
+        form.current,
+        emailJsConfig.publicKey
+      );
+      console.log('Email sent:', result.text);
+      setPopup({ show: true, message: 'Message sent successfully!', type: 'success' });
+      setFormData(EMPTY_FORM_STATE);
+      setCaptchaInput('');
+      setCaptchaText(createCaptchaText());
+      form.current?.reset();
+    } catch (error) {
+      console.log('Email error:', error.text || error.message);
+      setPopup({ show: true, message: 'Failed to send message. Please try again.', type: 'error' });
     }
   };
 
@@ -141,6 +151,7 @@ const Contact = () => {
                 name="company"
                 required 
                 type="text" 
+                value={formData.company}
                 placeholder="Company" 
                 className="w-full p-3 border border-gray-300 focus:ring-1 focus:ring-[#448c6c] outline-none transition-all"
                 onChange={(e) => setFormData({...formData, company: e.target.value})}
@@ -151,6 +162,7 @@ const Contact = () => {
                 name="user_name"
                 required 
                 type="text" 
+                value={formData.name}
                 placeholder="Name" 
                 className="w-full p-3 border border-gray-300 focus:ring-1 focus:ring-[#448c6c] outline-none transition-all"
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -161,6 +173,7 @@ const Contact = () => {
                 name="user_phone"
                 required 
                 type="tel" 
+                value={formData.phone}
                 placeholder="Phone" 
                 className="w-full p-3 border border-gray-300 focus:ring-1 focus:ring-[#448c6c] outline-none transition-all"
                 onChange={(e) => setFormData({...formData, phone: e.target.value})}
@@ -171,6 +184,7 @@ const Contact = () => {
                 name="user_email"
                 required 
                 type="email" 
+                value={formData.email}
                 placeholder="Email" 
                 className="w-full p-3 border border-gray-300 focus:ring-1 focus:ring-[#448c6c] outline-none transition-all"
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -180,6 +194,7 @@ const Contact = () => {
               <textarea 
                 name="message"
                 required 
+                value={formData.message}
                 placeholder="Message" 
                 rows="4" 
                 className="w-full p-3 border border-gray-300 focus:ring-1 focus:ring-[#448c6c] outline-none transition-all resize-none"
@@ -192,6 +207,7 @@ const Contact = () => {
                   required 
                   type="checkbox" 
                   id="privacy" 
+                  checked={formData.privacyAccepted}
                   className="mt-1 w-4 h-4 accent-[#448c6c] cursor-pointer"
                   onChange={(e) => setFormData({...formData, privacyAccepted: e.target.checked})}
                 />
@@ -218,8 +234,10 @@ const Contact = () => {
                   id="user_captcha_input"
                   required
                   type="text" 
+                  value={captchaInput}
                   placeholder="Enter the code above" 
                   className="w-full p-2.5 border border-gray-300 focus:ring-1 focus:ring-[#448c6c] outline-none bg-white"
+                  onChange={(e) => setCaptchaInput(e.target.value)}
                 />
               </div>
 

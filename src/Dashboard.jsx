@@ -17,6 +17,9 @@ const PREDEFINED_CATEGORIES = [
   "Tolerance"
 ];
 
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "dzqdfaghg";
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "build-the-right-ghanA";
+
 const FormLabel = ({ label, info }) => (
   <div className="flex items-center gap-2 mb-1">
     <label className="block text-sm font-medium text-gray-700">{label}</label>
@@ -98,27 +101,26 @@ const Dashboard = () => {
   };
 
   const uploadFile = async (file) => {
-    const cloudName = "dzqdfaghg"; 
-    const uploadPreset = "build-the-right-ghanA"; 
-
     setUploading(true);
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", uploadPreset);
-    data.append("cloud_name", cloudName);
+    data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    data.append("cloud_name", CLOUDINARY_CLOUD_NAME);
 
     try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
         method: "POST",
         body: data
       });
       const fileData = await res.json();
-      if (fileData.secure_url) {
-        setFormData(prev => ({ ...prev, imageUrl: fileData.secure_url }));
+      if (!res.ok || !fileData.secure_url) {
+        throw new Error(fileData.error?.message || 'Cloudinary upload failed.');
       }
+
+      setFormData(prev => ({ ...prev, imageUrl: fileData.secure_url }));
     } catch (error) {
       console.error("Error uploading image: ", error);
-      setNotification({ show: true, type: 'error', message: 'Error uploading image' });
+      setNotification({ show: true, type: 'error', message: error.message || 'Error uploading image' });
     } finally {
       setUploading(false);
     }

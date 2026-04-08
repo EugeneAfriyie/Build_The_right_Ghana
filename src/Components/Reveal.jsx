@@ -5,6 +5,7 @@ const Reveal = ({ children, width = "100%" }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const mainControls = useAnimation();
+  const MotionDiv = motion.div;
 
   useEffect(() => {
     if (isInView) {
@@ -14,7 +15,7 @@ const Reveal = ({ children, width = "100%" }) => {
 
   return (
     <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
-      <motion.div
+      <MotionDiv
         variants={{
           hidden: { opacity: 0, y: 75 },
           visible: { opacity: 1, y: 0 },
@@ -24,7 +25,7 @@ const Reveal = ({ children, width = "100%" }) => {
         transition={{ duration: 0.5, delay: 0.25 }}
       >
         {children}
-      </motion.div>
+      </MotionDiv>
     </div>
   );
 };

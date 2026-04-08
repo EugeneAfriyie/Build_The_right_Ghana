@@ -7,9 +7,18 @@ const Mission = () => {
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!");
+  const momoNumber = import.meta.env.VITE_MOMO_NUMBER || "024 427 1160";
+  const momoName = import.meta.env.VITE_MOMO_NAME || "Build The Right Ghana";
+  const bankName = import.meta.env.VITE_BANK_NAME || "GCB Bank";
+  const bankAccount = import.meta.env.VITE_BANK_ACCOUNT_NUMBER || "1234567890123";
+
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Copied to clipboard!");
+    } catch {
+      alert("Copy failed. Please copy it manually.");
+    }
   };
 
   return (
@@ -92,12 +101,12 @@ const Mission = () => {
                   <div className="pl-4">
                     <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Momo Number</p>
                     <div className="flex items-center gap-3">
-                      <p className="text-xl font-mono font-bold text-gray-800 tracking-wide">024 427 1160</p>
-                      <button onClick={() => copyToClipboard("0244271160")} className="text-gray-400 hover:text-[#2d4e41] transition-colors" title="Copy">
+                      <p className="text-xl font-mono font-bold text-gray-800 tracking-wide">{momoNumber}</p>
+                      <button onClick={() => copyToClipboard(momoNumber.replace(/\s/g, ''))} className="text-gray-400 hover:text-[#2d4e41] transition-colors" title="Copy">
                         <Copy size={16} />
                       </button>
                     </div>
-                    <p className="text-sm text-gray-600 font-medium mt-1">Build The Right Ghana</p>
+                    <p className="text-sm text-gray-600 font-medium mt-1">{momoName}</p>
                   </div>
                 </div>
               </div>
@@ -111,13 +120,13 @@ const Mission = () => {
                 <div className="space-y-3 pl-2 border-l-2 border-[#2d4e41]/20 ml-2">
                   <div className="pl-4">
                     <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Bank Name</p>
-                    <p className="text-gray-800 font-bold">GCB Bank</p>
+                    <p className="text-gray-800 font-bold">{bankName}</p>
                   </div>
                   <div className="pl-4">
                     <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Account Number</p>
                     <div className="flex items-center gap-3">
-                      <p className="text-xl font-mono font-bold text-gray-800 tracking-wide">1234567890123</p>
-                      <button onClick={() => copyToClipboard("1234567890123")} className="text-gray-400 hover:text-[#2d4e41] transition-colors" title="Copy">
+                      <p className="text-xl font-mono font-bold text-gray-800 tracking-wide">{bankAccount}</p>
+                      <button onClick={() => copyToClipboard(bankAccount)} className="text-gray-400 hover:text-[#2d4e41] transition-colors" title="Copy">
                         <Copy size={16} />
                       </button>
                     </div>

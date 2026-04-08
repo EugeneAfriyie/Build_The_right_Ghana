@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
+  const MotionDiv = motion.div;
+
   return (
     <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Background Image & Overlay */}
@@ -16,7 +18,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Content */}
-      <motion.div 
+      <MotionDiv 
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -30,7 +32,7 @@ const Hero = () => {
           Let’s make a positive impact. <br className="hidden md:block" /> 
           Be a <span className="text-white">Citizen</span> not a <span className="text-white">Spectator.</span>
         </p>
-      </motion.div>
+      </MotionDiv>
     </section>
   );
 };

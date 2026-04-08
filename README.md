@@ -1,16 +1,83 @@
-# React + Vite
+# Build The Right Ghana
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Build The Right Ghana is a React + Vite web application for the Build The Right Ghana initiative. It includes a public-facing website, a contact form powered by EmailJS, Firebase-backed blog/admin flows, and donation details shown in the public UI.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19
+- Vite 7
+- Tailwind CSS 3
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
+- Firebase Analytics
+- EmailJS browser SDK
+- Framer Motion
+- Lucide React
 
-## React Compiler
+## Quick Start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Install dependencies:
 
-## Expanding the ESLint configuration
+```powershell
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Create your local environment file:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+3. Fill in the values in `.env`.
+
+4. Start the development server:
+
+```powershell
+npm run dev
+```
+
+5. Build for production:
+
+```powershell
+npm run build
+```
+
+## Environment Variables
+
+The app currently uses these variables:
+
+```env
+VITE_EMAILJS_SERVICE_ID=
+VITE_EMAILJS_TEMPLATE_ID=
+VITE_EMAILJS_PUBLIC_KEY=
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+VITE_CLOUDINARY_CLOUD_NAME=
+VITE_CLOUDINARY_UPLOAD_PRESET=
+VITE_MOMO_NUMBER=
+VITE_MOMO_NAME=
+VITE_BANK_NAME=
+VITE_BANK_ACCOUNT_NUMBER=
+```
+
+`VITE_MOMO_*` and `VITE_BANK_*` drive donation details in the UI. `VITE_CLOUDINARY_*` powers image uploads in the admin dashboard.
+
+## Project Docs
+
+See the `reading` folder for the full project guide:
+
+- [Project Overview](./reading/PROJECT_GUIDE.md)
+- [Environment and Service Setup](./reading/ENVIRONMENT_SETUP.md)
+- [EmailJS Contact Template](./reading/emailjs-contact-template.html)
+
+## Notes
+
+- Firebase config values for web apps are project identifiers, not server secrets, but they should still be managed carefully.
+- EmailJS must use the expected field names from the contact form: `company`, `user_name`, `user_phone`, `user_email`, and `message`.
+- The admin dashboard also depends on a Cloudinary unsigned upload preset for image uploads.
