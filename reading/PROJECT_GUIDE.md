@@ -2,12 +2,12 @@
 
 ## Overview
 
-Build The Right Ghana is a single-page React application with public pages and a lightweight admin area.
+Build The Right Ghana is a single-page React application with public pages and a robust, modular admin area.
 
 Main areas:
 
 - Public home page with mission, campaigns, blog preview, donation prompts, and contact section.
-- Blog archive and individual blog post pages.
+- Blog archive and individual blog post reader pages.
 - Firebase-authenticated admin login.
 - Admin dashboard for creating, editing, and deleting blog posts in Firestore.
 - EmailJS-powered contact form for website inquiries.
@@ -17,7 +17,7 @@ Main areas:
 ### Public website
 
 - Hero, mission, about, projects, blog preview, and footer sections.
-- Donation details shown in `Mission` and `FooterCTA`.
+- Dynamic donation details shown in `Mission` and `FooterCTA` (falls back to a sleek "Contact Support" social media block if no payment methods are active).
 - Embedded Google Map and contact form.
 
 ### Contact form
@@ -33,10 +33,14 @@ Main areas:
 
 ### Admin/blog system
 
-- Login uses Firebase Authentication.
+- Login uses Firebase Authentication (supports "Forgot Password" functionality).
+- Advanced Role-Based Access Control (RBAC): Root Admin, Super Admins, and Regular Admins.
+- Admin Directory to manage user roles, explicit account disabling, and tracking authorized emails.
+- Admins have a "Panic Button" to safely disable their own accounts if compromised.
+- Dynamic Payment Methods management for the frontend donation modals.
 - Blog content is stored in a Firestore `posts` collection.
 - Image uploads in the dashboard go through Cloudinary.
-- Admin routes are protected by Firebase auth state.
+- Admin routes are protected by Firebase auth state, database-level disable toggles, and strict security rules.
 
 ## Important Files
 
@@ -44,7 +48,8 @@ Main areas:
 - `src/firebase.js`: Firebase initialization.
 - `src/Components/Contact.jsx`: EmailJS form integration.
 - `src/Login.jsx`: admin login.
-- `src/Dashboard.jsx`: blog CRUD and Cloudinary upload flow.
+- `src/Dashboard.jsx`: Main dashboard layout, access verification, and state management.
+- `src/Components/Dashboard/`: Modular dashboard components (Sidebar, Header, PostList, PaymentSection, AdminsSection, Modals).
 - `src/Pages/Blog/BlogArchive.jsx`: blog list page.
 - `src/Pages/Blog/PostPage.jsx`: single post page.
 

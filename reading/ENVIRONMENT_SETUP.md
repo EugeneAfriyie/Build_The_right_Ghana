@@ -56,10 +56,17 @@ Map them like this:
   - Enable Email/Password sign-in if admin login should work.
 - Firestore Database
   - Create a `posts` collection for blog entries.
+  - Create a `paymentMethods` collection to power the donation modals.
+  - Create a `superAdmins` collection to manage role privileges.
+  - Create an `allAdmins` directory collection to track users, permissions, and disabled statuses.
 - Storage
   - Required by config, even though current dashboard image uploads go to Cloudinary.
 - Analytics
   - Optional but supported. If Analytics is enabled, keep `VITE_FIREBASE_MEASUREMENT_ID` in sync.
+
+### Firebase Security Rules
+
+This project uses strict Firestore security rules to protect the dashboard. You must manually set your Root Admin email (e.g., `solutionspynotech@gmail.com`) inside the `isSuperAdmin()` function in the Firebase Console Rules tab to ensure the master account can never be locked out and has full write access.
 
 ## EmailJS Setup
 
@@ -136,6 +143,8 @@ This project also uses Cloudinary for blog image uploads in the admin dashboard.
 3. Create an unsigned upload preset, or open the existing one.
 4. Copy the preset name.
 5. Paste it into `.env` as `VITE_CLOUDINARY_UPLOAD_PRESET`.
+
+*Note: If these variables are left blank, the application will default to the Cloud Name `dnzff0rjy` and Upload Preset `BUILD_THE_RIGHT_GHANA`.*
 
 ## Donation Settings
 
