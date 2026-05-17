@@ -24,7 +24,7 @@ const AboutUsCurvedCentered = () => {
                        [clip-path:ellipse(50%_50%_at_50%_50%)] 
                        [shape-outside:ellipse(50%_50%_at_50%_50%)]"
             style={{ 
-              backgroundImage: "url('https://www.buildtherightghana.org/images/576/19269745/IMG-20220119-WA0016-kMZPJnEJAtXKmD2V26ljBA.jpg')",
+              backgroundImage: "url('https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048290/IMG-20220119-WA0016-kMZPJnEJAtXKmD2V26ljBA_rwwc7g.jpg')",
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}
