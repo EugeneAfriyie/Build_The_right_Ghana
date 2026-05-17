@@ -48,7 +48,7 @@ const Mission = () => {
         <div className="w-full md:w-2/5">
           <div className="relative overflow-hidden rounded-[60px] shadow-2xl">
             <img 
-              src="https://www.buildtherightghana.org/images/576/7003321/mission.jpg" 
+              src="https://res.cloudinary.com/dnzff0rjy/image/upload/v1779047516/mission_u7shwn.jpg" 
               alt="Hands on tree trunk" 
               className="w-full h-[500px] object-cover"
             />
