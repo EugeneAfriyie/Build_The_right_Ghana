@@ -44,7 +44,7 @@ const FooterCTA = () => {
       {/* Background Image with Dark Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('assets/green_forest.png')" }}
+        style={{ backgroundImage: "url('https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048288/cta_2_iknbii.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
