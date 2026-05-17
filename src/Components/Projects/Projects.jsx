@@ -24,32 +24,32 @@ const Projects = () => {
     {
       title: "Empowering Women and Youth",
       description: "This training focuses on equipping women and the youth with the necessary tools and knowledge across various fields.",
-      imageUrl: "https://www.buildtherightghana.org/images/576/19270605/IMG-20240421-WA0108-ooDYBjMOJAJz7b4rVE6a0A.jpg"
+      imageUrl: "https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048293/IMG-20240421-WA0108-ooDYBjMOJAJz7b4rVE6a0A_3_pxgydm.jpg"
     },
     {
       title: "Initiatives for Alleviating Poverty",
       description: "Our mission is to extend a helping hand to the underprivileged. We believe every individual deserves access to basic necessities.",
-      imageUrl: "https://www.buildtherightghana.org/images/576/19270611/IMG-20240421-WA0138-7eaw0f2FckSgFBKFP9P_Pg.jpg"
+      imageUrl: "https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048294/IMG-20240421-WA0138-7eaw0f2FckSgFBKFP9P_Pg_3_ay9rzs.jpg"
     },
     {
       title: "Sanitation and Personal Security",
       description: "We educate the ordinary Ghanaian on sanitation. We sometimes engage and organize clean-up exercises to promote cleanliness.",
-      imageUrl: "https://www.buildtherightghana.org/images/1024/19270614/m6htl88kj1_1zoomlion-gmCBCzNBPxpSdvxdTvOFnQ.jpg"
+      imageUrl: "https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048294/m6htl88kj1_1zoomlion-gmCBCzNBPxpSdvxdTvOFnQ_mbov6j.jpg"
     },
     {
         title: "Advocacy for Human Rights",
         description: "We offer our support by promoting and protecting the fundamental rights and freedoms that belong to every individual.",
-        imageUrl: "https://www.buildtherightghana.org/images/576/19270615/humanrights-zSyCSi-RVGbg8FJEG18gIg.jpg"
+        imageUrl: "https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048290/humanrights-zSyCSi-RVGbg8FJEG18gIg_2_znzhav.jpg"
       },
       {
         title: "Sustainable Agriculture",
         description: "A sustainable initiative promoting agriculture and employment opportunities and also help in cultivating a greener future.",
-        imageUrl: "https://www.buildtherightghana.org/images/576/19270623/PLANTING-YE6q-QRZ3Ezip2x2uwPKOA.jpeg"
+        imageUrl: "https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048297/PLANTING-YE6q-QRZ3Ezip2x2uwPKOA_bg0k31.jpg"
       },
       {
         title: "Environmental Conservation",
         description: "We promote initiatives and raise awareness aimed at preserving and protecting the natural environment.",
-        imageUrl: "https://www.buildtherightghana.org/images/576/19270635/my_help_your_help_cover-braVjPg6QxlUBfAwef3pRw.jpg"
+        imageUrl: "https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048295/my_help_your_help_cover-braVjPg6QxlUBfAwef3pRw_2_tq7nxu.jpg"
       }
   ];
 
