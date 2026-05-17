@@ -10,7 +10,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{ 
-          backgroundImage: "url('assets/HERO.png')",
+          backgroundImage: "url('https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048283/CHARITY1-TqKmstpofzJPPi4VB44Twg_mgg7rt.jpg')",
         }}
       >
         {/* Dark Overlay to make text pop */}
