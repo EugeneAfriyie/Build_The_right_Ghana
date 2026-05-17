@@ -15,7 +15,7 @@ const FullAboutPage = () => {
   <div 
     className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
     style={{ 
-      backgroundImage: "url('https://www.buildtherightghana.org/images/803/19268596/IMG-20240421-WA0012-f59c1EJLAv_GSvI_LtUCmg.jpg')", // A forest/nature background matching your theme
+      backgroundImage: "url('https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048287/charity-hero_2_d8zfj8.jpg')", // A forest/nature background matching your theme
     }}
   >
 
@@ -50,7 +50,7 @@ const FullAboutPage = () => {
             {/* Left Column: Image and Key Info */}
             <div className="md:col-span-4 sticky top-28">
                <img 
-                src="https://www.buildtherightghana.org/images/576/19269745/IMG-20220119-WA0016-kMZPJnEJAtXKmD2V26ljBA.jpg" 
+                src="https://res.cloudinary.com/dnzff0rjy/image/upload/v1779048290/IMG-20220119-WA0016-kMZPJnEJAtXKmD2V26ljBA_rwwc7g.jpg" 
                 alt="Founder" 
                 className="w-full h-auto rounded-[40px] shadow-xl border-4 border-gray-100 mb-6"
               />
